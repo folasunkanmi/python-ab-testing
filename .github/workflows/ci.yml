@@ -26,10 +26,17 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest
+          pip install pytest nbconvert ipykernel
 
       - name: Run automated tests
         run: pytest tests/ -v --tb=short
 
       - name: Validate notebook is valid JSON
         run: python -c "import json; json.load(open('AB_Test_Analysis.ipynb')); print('Notebook JSON is valid')"
+
+      - name: Execute notebook end-to-end
+        run: |
+          jupyter nbconvert --to notebook --execute AB_Test_Analysis.ipynb \
+            --output AB_Test_Analysis_executed.ipynb \
+            --ExecutePreprocessor.timeout=120
+          echo "Notebook executed successfully"
