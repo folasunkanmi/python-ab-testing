@@ -1,58 +1,120 @@
 # Python A/B Testing Analysis
 
-A complete end-to-end A/B test analysis using **Python**, **Pandas**, **Matplotlib**, and **SciPy**.
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Reproducible](https://img.shields.io/badge/Reproducible-Yes-brightgreen)](#reproducibility)
 
-## What this project covers
+**A production-ready statistical evaluation of an A/B test comparing two product versions on conversion rate.**
 
-1. **Data Cleaning** with Pandas  
-2. **Conversion Rate** calculation for Version A vs Version B  
-3. **Bar Chart** visualization  
-4. **Statistical Testing** (independent t-test + proportion z-test)  
-5. **Clear Recommendation** based on the results
+**Author:** Folasunkanmi  
+**Repository:** https://github.com/folasunkanmi/python-ab-testing
 
-## Dataset
+---
 
-- 500 users randomly assigned to Version A or Version B
-- Binary conversion outcome (`converted`: 0 or 1)
-- Balanced groups (250 users each)
+## Abstract
 
-## Key Results
+This project delivers a complete, reproducible A/B test analysis. It goes beyond a basic p-value by including:
 
-| Metric                    | Value     |
-|---------------------------|-----------|
-| Version A Conversion Rate | 14.0%     |
-| Version B Conversion Rate | 17.6%     |
-| Relative Lift of B        | +25.7%    |
-| p-value (t-test)          | ≈ 0.27    |
+- Rigorous **data validation**
+- Conversion rates with **95% Wilson confidence intervals**
+- **Two-proportion z-test** as the primary hypothesis test
+- Effect size (Cohen’s h)
+- **Power analysis** and required sample-size calculations
+- Professional visualizations that show uncertainty
+- Clear **business recommendations**
 
-**Conclusion**: Although Version B shows a higher conversion rate, the difference is **not statistically significant**. More data is recommended before rolling out Version B.
+**Key result:** Version B converted at 17.6% vs 14.0% for Version A (+25.7% relative lift). The difference is **not statistically significant** (p ≈ 0.27). The experiment was underpowered.
 
-## How to run
+---
 
-1. Clone this repository
-2. Open `AB_Test_Analysis.ipynb` in JupyterLab / Jupyter Notebook / VS Code / Google Colab
-3. Make sure `ab_data.csv` is in the same folder
-4. Run all cells
+## Project Structure
+
+```
+python-ab-testing/
+├── AB_Test_Analysis.ipynb   # Full analysis notebook
+├── ab_data.csv              # Raw experimental data (500 users)
+├── requirements.txt         # Python dependencies
+├── README.md                # This file
+└── LICENSE                  # MIT License
+```
+
+---
+
+## Quick Start
 
 ```bash
 git clone https://github.com/folasunkanmi/python-ab-testing.git
 cd python-ab-testing
-jupyter lab
+pip install -r requirements.txt
+jupyter lab AB_Test_Analysis.ipynb
 ```
 
-## Requirements
+---
 
-- Python 3.8+
-- pandas
-- matplotlib
-- scipy
-- statsmodels (optional, for proportion z-test)
+## Key Findings
 
-```bash
-pip install pandas matplotlib scipy statsmodels
+| Metric                        | Value                      |
+|-------------------------------|----------------------------|
+| Version A conversion rate     | 14.0% (95% CI: 11.1–17.5%) |
+| Version B conversion rate     | 17.6% (95% CI: 14.3–21.5%) |
+| Absolute difference           | +3.6 percentage points     |
+| Relative lift                 | +25.7%                     |
+| Two-proportion z-test p-value | 0.270                      |
+| 95% CI for difference         | [−2.7 pp, +9.9 pp]         |
+| Cohen’s h                     | ≈ 0.10 (small)             |
+| Achieved power                | ~20%                       |
+
+**Interpretation:** The observed lift is directionally positive but statistically inconclusive. The confidence interval for the difference includes zero, and the experiment lacked sufficient power.
+
+---
+
+## Methodology Highlights
+
+1. **Data Validation** – Missing values, duplicates, invalid records, and group balance are explicitly checked.
+2. **Confidence Intervals** – Wilson score intervals for individual rates; Wald interval for the difference.
+3. **Primary Test** – Two-proportion z-test (most appropriate for binary conversion data).
+4. **Effect Size** – Cohen’s h reported alongside the p-value.
+5. **Power Analysis** – Achieved power calculated; required sample sizes provided for 5–25% relative lifts.
+6. **Business Translation** – Clear go / no-go recommendation and design guidance for the next experiment.
+
+---
+
+## Business Recommendation
+
+**Do not fully roll out Version B** on the basis of this test alone.
+
+Recommended next steps:
+- Re-run with a larger sample (see sample-size table in the notebook).
+- Examine secondary metrics (revenue, retention, engagement).
+- Consider segmentation and sequential testing frameworks for future experiments.
+
+To detect a 10% relative lift with 80% power (α = 0.05) you would need approximately **8,000–9,000 users per group**.
+
+---
+
+## How to Cite
+
+If you use this analysis or adapt the methodology, please cite:
+
+```
+Folasunkanmi. (2026). A/B Test Analysis: Conversion Rate Comparison 
+[Jupyter Notebook]. GitHub. https://github.com/folasunkanmi/python-ab-testing
 ```
 
-## Author
+---
 
-**Folasunkanmi** – Data Analyst & Aspiring Data Scientist  
-[GitHub Profile](https://github.com/folasunkanmi)
+## Reproducibility
+
+- [x] Raw data included
+- [x] Complete executable notebook
+- [x] Dependency list (`requirements.txt`)
+- [x] Explicit statistical hypotheses
+- [x] Confidence intervals reported
+- [x] Power analysis included
+- [x] Limitations documented
+
+---
+
+## License
+
+MIT License – free to use, modify, and distribute with attribution.
